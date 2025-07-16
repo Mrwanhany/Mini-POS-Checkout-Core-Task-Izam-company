@@ -97,14 +97,14 @@ class Receipt extends Equatable {
 /// This is a pure function that takes the current [CartState] and a [DateTime]
 /// and returns a [Receipt] DTO that can be used by downstream code for
 /// rendering or printing.
-Receipt buildReceipt(CartState cartState, DateTime timestamp) {
+Receipt buildReceipt(CartState cartState, [DateTime? timestamp]) {
   // Generate a simple receipt ID based on timestamp
-  final String receiptId = 'R${timestamp.millisecondsSinceEpoch}';
+  final now = timestamp ?? DateTime.now();
 
   // Create header
   final ReceiptHeader header = ReceiptHeader(
-    timestamp: timestamp,
-    receiptId: receiptId,
+    receiptId: 'R${now.microsecondsSinceEpoch}',
+    timestamp: now,
   );
 
   // Create receipt lines from cart lines

@@ -262,11 +262,9 @@ void main() {
       const item = Item(id: 'p01', name: 'Coffee', price: 2.50);
       const cartLine = CartLine(item: item, quantity: 2, discount: 0.1);
       final cartState = CartState.fromLines(const [cartLine]);
-      final timestamp = DateTime(2023, 1, 1, 12, 0, 0);
 
-      final receipt = buildReceipt(cartState, timestamp);
+      final receipt = buildReceipt(cartState);
 
-      expect(receipt.header.timestamp, equals(timestamp));
       expect(receipt.header.receiptId, contains('R'));
       expect(receipt.lines.length, equals(1));
       expect(receipt.lines.first.itemId, equals('p01'));
@@ -303,8 +301,7 @@ void main() {
       const item = Item(id: 'p01', name: 'Coffee', price: 2.50);
       const cartLine = CartLine(item: item, quantity: 2, discount: 0.1);
       final cartState = CartState.fromLines(const [cartLine]);
-      final timestamp = DateTime(2023, 1, 1, 12, 0, 0);
-      final receipt = buildReceipt(cartState, timestamp);
+      final receipt = buildReceipt(cartState);
 
       if (kDebugMode) {
         print(formatReceipt(receipt));
