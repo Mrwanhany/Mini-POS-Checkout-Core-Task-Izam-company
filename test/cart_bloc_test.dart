@@ -160,8 +160,8 @@ void main() {
           final state = bloc.state;
           expect(state.lines.length, equals(2));
           expect(state.totals.subtotal, equals(4.5));
-          expect(state.totals.vat, closeTo(0.68, 0.02));
-          expect(state.totals.grandTotal, closeTo(5.18, 0.02));
+          expect(state.totals.vat, equals(0.68));
+          expect(state.totals.grandTotal, equals(5.18));
         },
       );
 
@@ -177,9 +177,8 @@ void main() {
           final state = bloc.state;
           expect(state.lines.first.lineNet, equals(4.50));
           expect(state.totals.subtotal, equals(4.50));
-          expect(state.totals.vat, closeTo(0.68, 0.02));
-
-          expect(state.totals.grandTotal, closeTo(5.18, 0.02));
+          expect(state.totals.vat, equals(0.68));
+          expect(state.totals.grandTotal, equals(5.18));
         },
       );
 

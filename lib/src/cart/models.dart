@@ -106,16 +106,21 @@ class CartState extends Equatable {
 
   /// Creates a new [CartState] with calculated totals from the lines
   factory CartState.fromLines(List<CartLine> lines) {
-    final double subtotal = lines.fold(0.0, (sum, line) => sum + line.lineNet);
-    final double vat = double.parse((subtotal * 0.15).toStringAsFixed(2));
-    final double discount = lines.fold(0.0,
-        (sum, line) => sum + (line.item.price * line.quantity * line.discount));
-    final double grandTotal = double.parse((subtotal + vat).toStringAsFixed(2));
+    final subtotalRaw = lines.fold(0.0, (sum, line) => sum + line.lineNet);
+    final discountRaw = lines.fold(
+      0.0,
+      (sum, line) => sum + (line.item.price * line.quantity * line.discount),
+    );
+
+    final subtotal = roundTo2(subtotalRaw);
+    final vat = roundTo2(subtotal * 0.15);
+    final grandTotal = roundTo2(subtotal + vat);
+    final discount = roundTo2(discountRaw);
 
     final CartTotals totals = CartTotals(
-      subtotal: double.parse(subtotal.toStringAsFixed(2)),
+      subtotal: subtotal,
       vat: vat,
-      discount: double.parse(discount.toStringAsFixed(2)),
+      discount: discount,
       grandTotal: grandTotal,
     );
 
@@ -130,4 +135,8 @@ class CartState extends Equatable {
 
   @override
   String toString() => 'CartState(lines: ${lines.length}, totals: $totals)';
+}
+
+double roundTo2(double value) {
+  return (value * 100).roundToDouble() / 100;
 }
